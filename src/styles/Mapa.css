@@ -1,4 +1,5 @@
 .mapa{
-  width: 500px;
-  height: 350px;
+  min-width: 500px;
+  height: 380px;
+  border: solid silver 1px;
 }

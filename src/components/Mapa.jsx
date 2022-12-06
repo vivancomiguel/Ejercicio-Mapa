@@ -7,6 +7,8 @@ import Icon from 'leaflet/dist/images/marker-icon.png';
 import IconShadow from 'leaflet/dist/images/marker-icon.png';
 import axios from 'axios';
 import { useState } from 'react';
+import { faArrowUpRightFromSquare, faLocationDot, faMapLocation, faCodeCompare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ubicacionIcon = new LeLe.icon({
   iconUrl: Icon,
@@ -33,7 +35,10 @@ const Mapa = () => {
           conversion.push(
             <Marker position={[Coordinates.lat, Coordinates.lng]} icon={ubicacionIcon} key={Address} 
               eventHandlers={{
-                click: (e) => {
+                mouseout: (e) => {
+                  setTimeout(() => {
+                    e.target.closePopup();
+                  }, 1000);
                 },
                 popupopen: (e) => {
                 },
@@ -57,12 +62,14 @@ const Mapa = () => {
   }
   return (
     <>
-      <ul>
-		    <li>As a student, I want to see a map of Mexico City</li>
-		    <li>As a student, I want to see a map that has all the stores represented as markers/pins on the map.</li>
-		    <li>As a student, I want to be able to click on a store and add it to a list of 'My Favorite Stores'</li>
+    <main className="container">
+      <h1 className='text-center my-4'><FontAwesomeIcon icon={faLocationDot} /> Generation Take Home <FontAwesomeIcon icon={faLocationDot} /></h1>
+      <ul className="list-group text-center mb-4">
+		    <li className="list-group-item list-group-item-success">As a student, I want to see a map of Mexico City</li>
+		    <li className="list-group-item list-group-item-success">As a student, I want to see a map that has all the stores represented as markers/pins on the map.</li>
+		    <li className="list-group-item list-group-item-success">As a student, I want to be able to click on a store and add it to a list of 'My Favorite Stores'</li>
 		  </ul>
-      <div>
+      <div className="row mb-4">
         <MapContainer center={[19.432647316322633, -99.13322099639464]} zoom={13} scrollWheelZoom={false} className="mapa">
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -70,16 +77,39 @@ const Mapa = () => {
           />
           {puntos}
         </MapContainer>
+        <button 
+          className="btn btn-primary mb-3 rounded-0 rounded-bottom" 
+          onClick={()=>fetchData("data/data.json")}>
+            Show stores <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+        </button>
       </div>
-      <button onClick={()=>fetchData("data/data.json")}>Show stores</button>
-      <h2>My Favorite Stores</h2>
-      <ul>
+      <h2 className="text-center"><FontAwesomeIcon icon={faMapLocation} /> My Favorite Stores <FontAwesomeIcon icon={faMapLocation} /></h2>
+      <ul className="list-group mb-5">
         {
           lista.map(cv => {
-            return <li key={cv.Address}> {cv.Name} </li>;
+            return (<li 
+                key={cv.Address}
+                className="list-group-item list-group-item-primary">
+              <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">{cv.Name}</h5>
+                <small className="text-muted">{cv.Address}</small>
+              </div>
+                <h6 className="mt-3 text-center">Coordinates</h6>
+                <small className="d-block text-muted text-center"><strong>Latitude:</strong> {cv.Coordinates.lat}, <strong>Longitude:</strong> {cv.Coordinates.lng}</small>
+            </li>)
           })
         }
       </ul>
+    </main>
+    <footer>
+      <nav className="navbar navbar-dark justify-content-center bg-primary">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <a class="nav-link active" aria-current="page" target="_blank" href="https://github.com/vivancomiguel/Ejercicio-Mapa">Go to repository <FontAwesomeIcon icon={faCodeCompare} /></a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
     </>
   )
 }
