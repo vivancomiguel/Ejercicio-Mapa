@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getneration Take Home Exercise
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and [Leaflet](https://leafletjs.com/) with the purpose of show a list of store locations in Mexico City a select the favorite ones.
 
 ## Available Scripts
 
